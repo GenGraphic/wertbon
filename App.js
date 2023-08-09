@@ -15,9 +15,9 @@ export default function App() {
     const formData = new FormData();
     formData.append('name', name);
     formData.append('firma', firma);
-    formData.append('PIN', pin);
+    formData.append('pin', pin);
 
-    fetch('', {
+    fetch('https://wert-bon24.de/api/sendData.php', {
       method: 'POST',
       body: formData
     })
@@ -28,8 +28,13 @@ export default function App() {
         setFirma('');
         setName('');
         setPIN('');
+
+        setTimeout(() => {
+          	setStatus('');
+        }, 3000)
       } else {
-        alert('Something went wrong with sending your Data. Please try again later')
+        alert('Something went wrong with sending your Data. Please try again later');
+        setStatus(data.message);
       }
     })
     .catch(error => console.log(error))
@@ -89,7 +94,7 @@ export default function App() {
                 textInputStyle={{color: '#FFF'}}
             />
 
-            <Text>{status}</Text>
+            <Text style={styles.status}>{status}</Text>
 
             <TouchableOpacity style={styles.sendBtn} onPress={sendData}>
               <Image source={require('./assets/send.png')} style={styles.icon}/>
@@ -149,5 +154,10 @@ const styles = StyleSheet.create({
   form: {
     flex: 1,
     justifyContent: 'center'
+  },
+  status: {
+    textAlign: 'center',
+    marginTop: 10,
+    color: '#FFF'
   }
 });
